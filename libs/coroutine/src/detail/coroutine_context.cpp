@@ -34,20 +34,20 @@ namespace coroutines {
 namespace detail {
 
 coroutine_context::coroutine_context() :
-    fcontext_t(), stack_ctx_( this), ctx_( this)
+    stack_ctx_(),
+    ctx_( 0)
 {
 #if defined(BOOST_USE_SEGMENTED_STACKS)
     __splitstack_getcontext( stack_ctx_->segments_ctx);
 #endif
 }
 
-coroutine_context::coroutine_context( ctx_fn fn, stack_context * stack_ctx) :
-    fcontext_t(), stack_ctx_( stack_ctx),
-    ctx_( context::make_fcontext( stack_ctx_->sp, stack_ctx_->size, fn) )
+coroutine_context::coroutine_context( ctx_fn fn, stack_context const& stack_ctx) :
+    stack_ctx_( stack_ctx),
+    ctx_( context::make_fcontext( stack_ctx_.sp, stack_ctx_.size, fn) )
 {}
 
 coroutine_context::coroutine_context( coroutine_context const& other) :
-    fcontext_t(),
     stack_ctx_( other.stack_ctx_),
     ctx_( other.ctx_)
 {}
@@ -79,7 +79,7 @@ coroutine_context::jump( coroutine_context & other, intptr_t param, bool preserv
 
     return ret;
 #else
-    return context::jump_fcontext( ctx_, other.ctx_, param, preserve_fpu);
+    return context::jump_fcontext( & ctx_, other.ctx_, param, preserve_fpu);
 #endif
 }
 

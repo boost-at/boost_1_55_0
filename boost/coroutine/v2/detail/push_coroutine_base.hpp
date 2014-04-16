@@ -61,7 +61,7 @@ public:
         flags_( 0),
         except_(),
         caller_(),
-        callee_( fn, stack_ctx)
+        callee_( fn, *stack_ctx)
     {
         if ( unwind) flags_ |= flag_force_unwind;
         if ( preserve_fpu) flags_ |= flag_preserve_fpu;
@@ -201,7 +201,7 @@ public:
         flags_( 0),
         except_(),
         caller_(),
-        callee_( fn, stack_ctx)
+        callee_( fn, *stack_ctx)
     {
         if ( unwind) flags_ |= flag_force_unwind;
         if ( preserve_fpu) flags_ |= flag_preserve_fpu;
@@ -288,7 +288,7 @@ public:
         flags_( 0),
         except_(),
         caller_(),
-        callee_( fn, stack_ctx)
+        callee_( fn, *stack_ctx)
     {
         if ( unwind) flags_ |= flag_force_unwind;
         if ( preserve_fpu) flags_ |= flag_preserve_fpu;
