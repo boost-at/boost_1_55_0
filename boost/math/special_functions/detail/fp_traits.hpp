@@ -359,6 +359,13 @@ struct fp_traits_non_native<long double, extended_double_precision>
 
 // PowerPC extended double precision format (128 bits)
 
+// Current 'fp_traits_non_native' does not work correctly with IBM long double
+// due the fact for some operations, like sign manipulation, the algorithm
+// should manipulate both 'double' value.  For algorithms that only depend on
+// the most significand 32 bits (for instance, isinf or isnan), using the
+// template double especialization is suffice.
+
+#if 0
 template<>
 struct fp_traits_non_native<long double, extended_double_precision>
 {
@@ -391,7 +398,7 @@ private:
     BOOST_STATIC_ASSERT(false);
 #endif
 };
-
+#endif
 
 // long double (>64 bits), Motorola 68K ----------------------------------------
 
